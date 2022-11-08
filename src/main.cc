@@ -17,6 +17,8 @@
 #include "tracereader.h"
 #include "vmem.h"
 
+
+
 uint8_t warmup_complete[NUM_CPUS] = {}, simulation_complete[NUM_CPUS] = {}, all_warmup_complete = 0, all_simulation_complete = 0,
         MAX_INSTR_DESTINATIONS = NUM_INSTR_DESTINATIONS, knob_cloudsuite = 0, knob_low_bandwidth = 0;
 
@@ -305,6 +307,9 @@ void signal_handler(int signal)
 
 int main(int argc, char** argv)
 {
+  //ADD
+  //
+
   // interrupt signal hanlder
   struct sigaction sigIntHandler;
   sigIntHandler.sa_handler = signal_handler;

@@ -1,4 +1,5 @@
-To make other prefetch binarys:
+
+To make other prefetch excutables:
 1. change output file name in ./champsim_config.json, line 2
 2. change config in ./champsim_config.json
 
@@ -16,9 +17,7 @@ To run simulation:
 	WARM_UP: execlude the first ? cycles
 	SIM_INS: simulation will run over ? cycles, after execluding the warmups
 	TRACE_NAME: which trace to use
-
 3.in shell, run:$ sh my_run.sh
-
 To generate training data, run train_conv.py
  Results will be stored in train.o
  

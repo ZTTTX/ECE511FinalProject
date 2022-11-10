@@ -21,8 +21,8 @@ clean:
 
 	 find replacement/lru -name \*.o -delete
 	 find replacement/lru -name \*.d -delete
-	 find prefetcher/py_co_test -name \*.o -delete
-	 find prefetcher/py_co_test -name \*.d -delete
+	 find prefetcher/my_socket -name \*.o -delete
+	 find prefetcher/my_socket -name \*.d -delete
 	 find prefetcher/no_instr -name \*.o -delete
 	 find prefetcher/no_instr -name \*.d -delete
 	 find prefetcher/no -name \*.o -delete
@@ -32,7 +32,7 @@ clean:
 	 find btb/basic_btb -name \*.o -delete
 	 find btb/basic_btb -name \*.d -delete
 
-bin/champsim_print_test: $(patsubst %.cc,%.o,$(wildcard src/*.cc)) obj/repl_rreplacementDlru.a obj/pref_pprefetcherDpy_co_test.a obj/pref_pprefetcherDno_instr.a obj/pref_pprefetcherDno.a obj/bpred_bbranchDbimodal.a obj/btb_bbtbDbasic_btb.a
+bin/champsim_print_test: $(patsubst %.cc,%.o,$(wildcard src/*.cc)) obj/repl_rreplacementDlru.a obj/pref_pprefetcherDmy_socket.a obj/pref_pprefetcherDno_instr.a obj/pref_pprefetcherDno.a obj/bpred_bbranchDbimodal.a obj/btb_bbtbDbasic_btb.a
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
 replacement/lru/%.o: CFLAGS += -Ireplacement/lru
@@ -42,10 +42,10 @@ obj/repl_rreplacementDlru.a: $(patsubst %.cc,%.o,$(wildcard replacement/lru/*.cc
 	@mkdir -p $(dir $@)
 	ar -rcs $@ $^
 
-prefetcher/py_co_test/%.o: CFLAGS += -Iprefetcher/py_co_test
-prefetcher/py_co_test/%.o: CXXFLAGS += -Iprefetcher/py_co_test
-prefetcher/py_co_test/%.o: CXXFLAGS +=  -Dprefetcher_initialize=pref_pprefetcherDpy_co_test_initialize -Dprefetcher_cache_operate=pref_pprefetcherDpy_co_test_cache_operate -Dprefetcher_cache_fill=pref_pprefetcherDpy_co_test_cache_fill -Dprefetcher_cycle_operate=pref_pprefetcherDpy_co_test_cycle_operate -Dprefetcher_final_stats=pref_pprefetcherDpy_co_test_final_stats -Dl1d_prefetcher_initialize=pref_pprefetcherDpy_co_test_initialize -Dl2c_prefetcher_initialize=pref_pprefetcherDpy_co_test_initialize -Dllc_prefetcher_initialize=pref_pprefetcherDpy_co_test_initialize -Dl1d_prefetcher_operate=pref_pprefetcherDpy_co_test_cache_operate -Dl2c_prefetcher_operate=pref_pprefetcherDpy_co_test_cache_operate -Dllc_prefetcher_operate=pref_pprefetcherDpy_co_test_cache_operate -Dl1d_prefetcher_cache_fill=pref_pprefetcherDpy_co_test_cache_fill -Dl2c_prefetcher_cache_fill=pref_pprefetcherDpy_co_test_cache_fill -Dllc_prefetcher_cache_fill=pref_pprefetcherDpy_co_test_cache_fill -Dl1d_prefetcher_final_stats=pref_pprefetcherDpy_co_test_final_stats -Dl2c_prefetcher_final_stats=pref_pprefetcherDpy_co_test_final_stats -Dllc_prefetcher_final_stats=pref_pprefetcherDpy_co_test_final_stats
-obj/pref_pprefetcherDpy_co_test.a: $(patsubst %.cc,%.o,$(wildcard prefetcher/py_co_test/*.cc)) $(patsubst %.c,%.o,$(wildcard prefetcher/py_co_test/*.c))
+prefetcher/my_socket/%.o: CFLAGS += -Iprefetcher/my_socket
+prefetcher/my_socket/%.o: CXXFLAGS += -Iprefetcher/my_socket
+prefetcher/my_socket/%.o: CXXFLAGS +=  -Dprefetcher_initialize=pref_pprefetcherDmy_socket_initialize -Dprefetcher_cache_operate=pref_pprefetcherDmy_socket_cache_operate -Dprefetcher_cache_fill=pref_pprefetcherDmy_socket_cache_fill -Dprefetcher_cycle_operate=pref_pprefetcherDmy_socket_cycle_operate -Dprefetcher_final_stats=pref_pprefetcherDmy_socket_final_stats -Dl1d_prefetcher_initialize=pref_pprefetcherDmy_socket_initialize -Dl2c_prefetcher_initialize=pref_pprefetcherDmy_socket_initialize -Dllc_prefetcher_initialize=pref_pprefetcherDmy_socket_initialize -Dl1d_prefetcher_operate=pref_pprefetcherDmy_socket_cache_operate -Dl2c_prefetcher_operate=pref_pprefetcherDmy_socket_cache_operate -Dllc_prefetcher_operate=pref_pprefetcherDmy_socket_cache_operate -Dl1d_prefetcher_cache_fill=pref_pprefetcherDmy_socket_cache_fill -Dl2c_prefetcher_cache_fill=pref_pprefetcherDmy_socket_cache_fill -Dllc_prefetcher_cache_fill=pref_pprefetcherDmy_socket_cache_fill -Dl1d_prefetcher_final_stats=pref_pprefetcherDmy_socket_final_stats -Dl2c_prefetcher_final_stats=pref_pprefetcherDmy_socket_final_stats -Dllc_prefetcher_final_stats=pref_pprefetcherDmy_socket_final_stats
+obj/pref_pprefetcherDmy_socket.a: $(patsubst %.cc,%.o,$(wildcard prefetcher/my_socket/*.cc)) $(patsubst %.c,%.o,$(wildcard prefetcher/my_socket/*.c))
 	@mkdir -p $(dir $@)
 	ar -rcs $@ $^
 
@@ -79,7 +79,7 @@ obj/btb_bbtbDbasic_btb.a: $(patsubst %.cc,%.o,$(wildcard btb/basic_btb/*.cc)) $(
 
 -include $(wildcard src/*.d)
 -include $(wildcard replacement/lru/*.d)
--include $(wildcard prefetcher/py_co_test/*.d)
+-include $(wildcard prefetcher/my_socket/*.d)
 -include $(wildcard prefetcher/no_instr/*.d)
 -include $(wildcard prefetcher/no/*.d)
 -include $(wildcard branch/bimodal/*.d)

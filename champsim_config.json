@@ -154,7 +154,7 @@
         "prefetch_as_load": false,
         "virtual_prefetch": false,
         "prefetch_activate": "LOAD,PREFETCH",
-        "prefetcher": "py_co_test",
+        "prefetcher": "my_socket",
         "replacement": "lru"
     },
 

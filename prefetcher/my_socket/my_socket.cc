@@ -24,7 +24,7 @@ int init_count;
 void CACHE::prefetcher_initialize()
 {
   init_count = 0;
-  addr_queue = "0,";
+  addr_queue = "0";
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) {
       perror("socket error");
@@ -43,8 +43,8 @@ void CACHE::prefetcher_initialize()
 
 uint32_t CACHE::prefetcher_cache_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit, uint8_t type, uint32_t metadata_in) 
 { 
-  if (init_count < 15){
-    addr_queue = addr_queue + std::to_string(addr) + ",";
+  if (init_count < 15 && addr != NULL){
+    addr_queue = addr_queue +  "," + std::to_string(addr);
     init_count = init_count + 1;
   }
   else {
@@ -52,28 +52,30 @@ uint32_t CACHE::prefetcher_cache_operate(uint64_t addr, uint64_t ip, uint8_t cac
     addr_queue = addr_queue.substr(pos1 + 1, addr_queue.length());
     addr_queue = addr_queue + "," + std::to_string(addr);
   }
-//SEND
-  char buffer[1024];
-  memset(buffer, 0, sizeof(buffer));
+  if (init_count == 15){
+    //SEND
+    char buffer[1024];
+    memset(buffer, 0, sizeof(buffer));
+    strcpy(buffer, addr_queue.c_str());
+    size_t size;
+    //printf("buffer is %s\n", buffer);
+    printf("++%llu++", addr);
+    if (write(sockfd, buffer, sizeof(buffer)) < 0) {
+        perror("write error");  
+    }
   
-  // std::string addr_str = std::to_string(addr);
-  // strcpy(buffer, addr_str.c_str());
-  strcpy(buffer, addr_queue.c_str());
-  size_t size;
-  //printf("buffer is %s\n", buffer);
-  if (write(sockfd, buffer, sizeof(buffer)) < 0) {
-      perror("write error");  
+    //READ
+    char str_o[1024];
+    int len;
+    if((len = recv(sockfd, str_o, 1024*sizeof(char), 0))<0)
+      perror("recv");
+
+    
+    *std::remove(str_o, str_o+strlen(str_o)-1, '\n') = '\0';
+    uint64_t addr_out = strtoull(str_o, NULL, 0);
+    printf("--%llu--\n",addr_out);
+    prefetch_line(ip, addr, addr_out, true, 0);
   }
-
-//READ
-  char str_o[1024];
-  int len;
-  if((len = recv(sockfd, str_o, 1024*sizeof(char), 0))<0)
-		perror("recv");
-  *std::remove(str_o, str_o+strlen(str_o), '\n') = '\0';
-  uint64_t addr_out = strtoull(str_o, NULL, 0);
-  printf("--%llu--",addr_out);
-
   return metadata_in; 
 }
 

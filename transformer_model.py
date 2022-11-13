@@ -9,6 +9,42 @@ import torch.nn as nn
 # from tqdm import tqdm
 # import matplotlib.pyplot as plt
 
+config=dict(
+    # RUN CONFIG:
+    RUN_NAME='unofficial_single_gpu_run',
+    RUN_DESCRIPTION='No description',
+    RUNS_FOLDER_PTH='../runs',
+    # DATA CONFIG:
+    DATASET_SIZE=30000, # WARN: This is too small but makes it easy to go through the notebook fast
+    TEST_PROPORTION=0.01,
+    MAX_SEQ_LEN=40,
+    VOCAB_SIZE=64,
+    INPUT_ADDR_NUM=16,
+    OUTPUT_ADDR_NUM=4,
+    ADDR_CHUNKS=5,
+    # TOKENIZER_TYPE='wordlevel',
+    # TRAINING CONFIG:
+    BATCH_SIZE=48,
+    GRAD_ACCUMULATION_STEPS=8,
+    WORKER_COUNT=8,
+    EPOCHS=100,
+    # OPTIMIZER CONFIG:
+    BETAS=(0.9, 0.98),
+    EPS=1e-9,
+    # SCHEDULER CONFIG:
+    N_WARMUP_STEPS=4000,
+    # MODEL CONFIG:
+    D_MODEL=512,
+    N_BLOCKS=3,
+    N_HEADS=8,
+    D_FF=2048,
+    DROPOUT_PROBA=0.1,
+    # OTHER:
+    MODEL_SAVE_EPOCH_CNT=10,
+    DEVICE='gpu',
+    LABEL_SMOOTHING=0.1,
+)
+
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model, max_seq_len=500, dropout_proba=0.1):
         super(PositionalEncoding, self).__init__()
@@ -398,42 +434,6 @@ def translate(model, sentence: list):
 
 
 def init_model():
-
-    config=dict(
-        # RUN CONFIG:
-        RUN_NAME='unofficial_single_gpu_run',
-        RUN_DESCRIPTION='No description',
-        RUNS_FOLDER_PTH='../runs',
-        # DATA CONFIG:
-        DATASET_SIZE=30000, # WARN: This is too small but makes it easy to go through the notebook fast
-        TEST_PROPORTION=0.01,
-        MAX_SEQ_LEN=40,
-        VOCAB_SIZE=64,
-        INPUT_ADDR_NUM=16,
-        OUTPUT_ADDR_NUM=4,
-        ADDR_CHUNKS=5,
-        # TOKENIZER_TYPE='wordlevel',
-        # TRAINING CONFIG:
-        BATCH_SIZE=48,
-        GRAD_ACCUMULATION_STEPS=8,
-        WORKER_COUNT=8,
-        EPOCHS=100,
-        # OPTIMIZER CONFIG:
-        BETAS=(0.9, 0.98),
-        EPS=1e-9,
-        # SCHEDULER CONFIG:
-        N_WARMUP_STEPS=4000,
-        # MODEL CONFIG:
-        D_MODEL=512,
-        N_BLOCKS=3,
-        N_HEADS=8,
-        D_FF=2048,
-        DROPOUT_PROBA=0.1,
-        # OTHER:
-        MODEL_SAVE_EPOCH_CNT=10,
-        DEVICE='gpu',
-        LABEL_SMOOTHING=0.1,
-    )
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Using device {device}")

@@ -28,7 +28,16 @@ def main():
         # time.sleep(0.01)
         # addr_out = 1684654016 
         recv_data = recv_data.split(",")
-        recv_data = [int(i) for i in recv_data]
+        try:
+            recv_data = [int(i) for i in recv_data]
+        except:
+            print(f"Number of inferrences: {num}")
+            num = 0
+            conn.close()
+            sock.listen(5)
+            conn,address = sock.accept()
+            continue
+        # print("Length of recieved data: ", len(recv_data))
 
         # next-line prefetcher
         # addr = int(recv_data[-1])
@@ -36,9 +45,10 @@ def main():
 
         # transformer prefetcher
 
-        addr_out = translate(model, recv_data)[1]
-        
-        print('addr:', addr, 'addr_out', addr_out)
+        addr_out = translate(model, recv_data)[3]
+        num += 1
+        print(f'current address: {recv_data[-1]}, transformer predicted: {addr_out}')
+
         send_data = str(addr_out) #.ljust(1024,'\n')
         conn.send(bytes(send_data, encoding="ascii"))
 

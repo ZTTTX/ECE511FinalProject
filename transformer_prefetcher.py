@@ -45,7 +45,7 @@ def main():
 
         # transformer prefetcher
 
-        addr_out = translate(model, recv_data)[3]
+        addr_out = translate(model, recv_data)[1]
         num += 1
         print(f'current address: {recv_data[-1]}, transformer predicted: {addr_out}')
 

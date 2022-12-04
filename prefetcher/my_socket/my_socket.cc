@@ -46,7 +46,7 @@ void CACHE::prefetcher_initialize()
 
 uint32_t CACHE::prefetcher_cache_operate(uint64_t addr, uint64_t ip, uint8_t cache_hit, uint8_t type, uint32_t metadata_in) 
 { 
-  printf("[DEBUG] Addr: %llu\n", addr);
+  // printf("[DEBUG] Addr: %llu\n", addr);
   if (init_count < 16){
     addr_queue = addr_queue +  "," + std::to_string(addr);
     init_count = init_count + 1;

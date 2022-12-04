@@ -449,7 +449,7 @@ def init_model():
     )
     model.to(device)
 
-    pth = torch.load('models/fixedShiftRight_latest.pth')
+    pth = torch.load('models/astar_473_3blocks_latest.pth')
     model.load_state_dict(pth)
 
     return model

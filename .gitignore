@@ -4,6 +4,9 @@ inc/ooo_cpu_modules.inc
 src/core_inst.cc
 .champsimconfig_cache
 ./Makefile
+*.pyc
+*.pt
+.ipynb_checkpoints
 
 bin/
 obj/

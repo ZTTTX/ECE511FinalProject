@@ -1,6 +1,6 @@
 
-filename_i = 'results/training_ds_astar.txt'
-filename_o = 'train_o/training_ds_astar_473.txt'
+filename_i = 'results/training_ds_milc.txt'
+filename_o = 'train_o/training_ds_milc_433.txt'
 
 fi = open(filename_i,'r')
 fo = open(filename_o,'w')
